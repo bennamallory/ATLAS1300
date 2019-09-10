@@ -29,7 +29,6 @@ def startTurtles():
   moveTo(t1,205,150)
   moveTo(t2,313,320)
   moveTo(t3,418,150)
-  moveTo(t4,randomX,randomY)
 
 #Method to generate a random X value
 def randX(lower,upper):
@@ -135,8 +134,6 @@ while i < 500:
   makeSmallSquare(t4)
   
   i += 1
-
-penUp(t5)
 
 #GET BETTER DROP PICTURE
 dropPic(t4)
