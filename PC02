@@ -1,0 +1,142 @@
+# File name     : PC02_20190916_Benna_Mallory.py
+# JES Version   : jes-4-3
+# Purpose       : To practice basic drawing skills with turtles
+# Author        : Mallory Benna 
+# Date written  : 9-9-2019
+# Description   : This program provides methods for creating an animation using turtles
+
+#Import time and random modules
+from time import sleep
+from random import *
+
+#Initialize variables
+w = makeWorld()
+t1 = makeTurtle(w)
+t2 = makeTurtle(w)
+t3 = makeTurtle(w)
+t4 = makeTurtle(w)
+i = 0
+lower = 0
+upper = 0
+
+#Methods to place turtles at start
+
+def startTurtles():
+  penUp(t1)
+  penUp(t2)
+  penUp(t3)
+  penUp(t4)
+  moveTo(t1,205,150)
+  moveTo(t2,313,320)
+  moveTo(t3,418,150)
+  moveTo(t4,randomX,randomY)
+
+#Method to generate a random X value
+def randX(lower,upper):
+  x = randint(lower,upper)
+  return x
+
+#Method to generate a random Y value
+def randY(lower,upper):
+  y = randint(lower,upper)
+  return y
+
+#Method to make a single square
+def makeSquare(turtle):
+  penDown(turtle)
+  for x in range(0,4):
+    forward(turtle)
+    turnRight(turtle)
+  penUp(turtle)
+  
+#Method to make a small square
+def makeSmallSquare(turtle):
+  penDown(turtle)
+  for x in range(0,4):
+    forward(turtle,3)
+    turnRight(turtle)
+  penUp(turtle)
+  
+#Method to make a series of large squares
+def manySquares(turtle):
+  for x in range(0,7):
+    makeSquare(turtle)
+    turn(turtle,5)
+  penUp(turtle)  
+
+#Method to make a single triangle
+def makeTriangle(turtle):
+  penDown(turtle)
+  for x in range(0,3):
+    forward(turtle)
+    turn(turtle,120)
+    
+#Method to make a series of triangles
+def manyTriangles(turtle):
+  penDown(turtle)
+  for x in range(0,10):
+    makeTriangle(turtle)
+    turn(turtle,36)
+  penUp(turtle)
+
+#Method to drop a picture in world
+def dropPic(turtle):
+  moveTo(turtle,10,310)
+  pic = makePicture(pickAFile())
+  drop(turtle,pic)
+
+#Method to layer a series of squares on top of triangle series
+def secondLayer(turtle):
+  for i in range(0,6):
+    turnLeft(turtle)
+    sleep(0.25)
+    manySquares(turtle)
+
+
+#Make animation:
+
+#Start turtles in correct spots
+startTurtles()
+
+#Draw three main objects
+sleep(0.5)
+manyTriangles(t1)
+sleep(0.5)
+manyTriangles(t2)
+sleep(0.5)
+manyTriangles(t3)
+sleep(0.25)
+secondLayer(t1)
+secondLayer(t2)
+secondLayer(t3)
+
+#Draw sections of small random squares around objects ( W- 640 X H - 480 )
+while i < 500:
+  #Left side
+  #Bottom square
+  moveTo(t4,randX(10,150),randY(300,450))
+  makeSmallSquare(t4)
+  #Middle rectangle
+  moveTo(t4, randX(10,55), randY(80,300))
+  makeSmallSquare(t4)
+  #Top square
+  moveTo(t4, randX(10,85), randY(10,80))
+  makeSmallSquare(t4)
+  
+  #Right Side
+  #Bottom square
+  moveTo(t4, randX(470,620), randY(300,450))
+  makeSmallSquare(t4)
+  #Middle rectangle
+  moveTo(t4, randX(565,620), randY(80,300))
+  makeSmallSquare(t4)
+  #Top square
+  moveTo(t4, randX(545,620), randY(10,80))
+  makeSmallSquare(t4)
+  
+  i += 1
+
+penUp(t5)
+
+#GET BETTER DROP PICTURE
+dropPic(t4)
