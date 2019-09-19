@@ -1,0 +1,142 @@
+# File name     : PC03_20190923_Benna_Mallory.py
+# JES Version   : jes-4-3
+# Purpose       : To practice using flow control elements such as while, if, for
+# Description   : This is a program used to create a piece of generative art that is aesthetically and conceptually interesting
+# Author        : Mallory Benna 
+# Date written  : 9-16-2019
+# Date revised  : 9-19-2019
+# Revision Notes: Comments updated to include date revised and revision notes
+
+from random import *
+
+#Make world and initialize turtles
+w = makeWorld()
+
+width = 640
+height = 420
+
+
+t1 = makeTurtle(w)
+t1.setPenColor(makeColor(255,209,5))
+t1.setBodyColor(makeColor(255,209,5))
+t1.setWidth(5)
+t1.setHeight(5)
+t1.setPenWidth(1)
+
+t2 = makeTurtle(w)
+t2.setPenColor(makeColor(255,122,5))
+t2.setBodyColor(makeColor(255,122,5))
+t2.setWidth(10)
+t2.setHeight(10)
+t2.setPenWidth(1)
+
+
+t3 = makeTurtle(w)
+t3.setPenColor(red)
+t3.setBodyColor(red)
+t3.setWidth(10)
+t3.setHeight(10)
+t3.setPenWidth(1)
+
+t4 = makeTurtle(w)
+t4.setPenColor(makeColor(255,147,5))
+t4.setBodyColor(makeColor(255,147,5))
+t4.setWidth(10)
+t4.setHeight(10)
+t4.setPenWidth(1)
+
+
+t5 = makeTurtle(w)
+t5.setPenColor(black)
+t5.setBodyColor(black)
+t5.setWidth(10)
+t5.setHeight(10)
+t5.setPenWidth(5)
+
+
+
+#Method to generate a random X value
+def randX(lower,upper):
+  x = randint(lower,upper)
+  return x
+
+#Method to generate a random Y value
+def randY(lower,upper):
+  y = randint(lower,upper)
+  return y
+
+
+#Method to make a single square
+def makeSquare(turtle):
+  penDown(turtle)
+  for x in range(0,4):
+    forward(turtle,20)
+    turnRight(turtle)
+  penUp(turtle)
+  
+#Method to make stripes at bottom of image
+def makeStripes(turtle):
+  penUp(turtle)
+  step = 5
+  turnRight(turtle)
+  
+  for i in range(1,7):
+    penUp(turtle)
+    moveTo(turtle,0,height+step)
+    penDown(turtle)
+    forward(turtle,640)
+    penUp(turtle)
+    step += 10
+
+
+# The Recaman Sequence
+#   Algorithm reference from https://simpleprogrammer.com/python-generative-art-math/
+def Recaman(turtle):
+  x = 0
+  while x < 10:
+    #Move Turtle to random start
+    penUp(turtle)
+    moveTo(turtle,randX(0,width),randY(0,height))
+    penDown(turtle)
+
+    #Start at number 0
+    currNum = 0
+
+    #list for all values we have been to
+    pastNums = []
+
+    #Increase step by 1 each round
+    for step in range(1,100):
+      #Checking if we can move backwards
+      checkBack = currNum - step
+  
+      #Is the backwards value positive and not a number we've been at before
+      if checkBack > 0 and checkBack not in pastNums:
+        #Move turtle backward that step size and set the current value to this new backward value, logging this current spot
+        penUp(turtle)
+        moveTo(turtle,randX(0,width),randY(0,height))
+        penDown(turtle)
+        turnToFace(turtle,100,100)
+        makeSquare(turtle)
+        backward(turtle)
+        currNum = checkBack
+        pastNums.append(currNum)
+    
+      #Otherwise, move turtle forward the step size and set this to be the current value, logging this current spot
+      else:
+        penUp(t1)
+        moveTo(t1,randX(0,width),randY(0,height))
+        penDown(t1)
+        turnToFace(t1,100,100)
+        makeSquare(t1)
+        forward(t1)
+        currNum += step
+        pastNums.append(currNum)
+  
+    x += 1
+
+Recaman(t1)
+Recaman(t2)
+Recaman(t3)
+Recaman(t4)
+makeStripes(t5)
