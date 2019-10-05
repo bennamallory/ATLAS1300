@@ -1,0 +1,109 @@
+# File name     : PC05_20191003_Benna_Mallory.py
+# JES Version   : JES 5.02
+# Purpose       : To practice using the gui module for animations
+# Author        : Mallory Benna 
+# Partner       : Catherine Jones
+# Date written  : 10-03-2019
+# Date revised  : 10-05-2019
+# Description   : This is a program used to create a petri dish of animated microbes
+#     Revisions   10-04-2019 -- fixed microbe function to be generalized for various types of microbes
+#                               added movement functions
+
+
+#Modules
+import gui
+from time import sleep
+from random import randint, choice
+
+#Variables
+#----------------
+# Microbe function variables
+circle = "circle"
+oval = "oval"
+rectangle = "rectangle"
+polygon = "polygon"
+
+# Animation variables 
+global x
+global y
+shapes = [circle,rectangle,polygon,oval]
+x = randint(80,370)
+y = randint(80,370)
+
+microbeList = []
+
+#Creating Display with Circular Petri Dish
+disp = gui.Display('Petri', 500,500)
+disp.setColor(gui.Color.BLACK)
+petri = gui.Circle(250,250,240, gui.Color.WHITE, True, 5)
+disp.add(petri)
+
+
+
+#Method to create microbes that vary in size, color, starting position, and shape
+#-------------------------
+
+def makeMicrobe(x,y,color=gui.Color.BLACK,shape=circle):
+  #Create initial microbe objects of specified size
+  circleMicrobe = gui.Circle(randint(70,415),randint(75,415),12,color,true) #random x and y location within Petri, radius 10
+  ovalMicrobe = gui.Oval(150,75,95,110,color,true) #stationary starting position and size
+  rectMicrobe = gui.Rectangle(350,275,295,310,color,true) #stationary starting poisition and size
+  polyMicrobe = gui.Polygon([260,225,225,250],[185,225,175,250],color,true)
+  
+  #Set initial microbes to specific x,y position
+  if shape == circle:
+    circleMicrobe.setPosition(x,y)
+    disp.add(circleMicrobe)
+    return circleMicrobe
+  elif shape == oval:
+    ovalMicrobe.setPosition(x,y)
+    disp.add(ovalMicrobe)
+    return ovalMicrobe
+  elif shape == rectangle:
+    rectMicrobe.setPosition(x,y)
+    disp.add(rectMicrobe)
+    return rectMicrobe
+  elif shape == polygon:
+    polyMicrobe.setPosition(x,y)
+    disp.add(polyMicrobe)
+    return polyMicrobe
+
+
+#Methods to Move Microbes
+#-------------------------
+
+def random(microbe):
+  xStart,yStart = microbe.getPosition()
+  pos = [randint(xStart, xStart + 2), randint(yStart,yStart + 2)]
+  microbe.setPosition(pos[0],pos[1])
+
+def upDown(microbe):
+  xStart,yStart = microbe.getPosition()
+  pos = [x,randint(yStart - 5,yStart + 5)]
+  microbe.setPosition(pos[0],pos[1])
+
+def leftRight(microbe):
+  xStart,yStart = microbe.getPosition()
+  pos = [randint(xStart - 10, xStart + 10),y]
+  microbe.setPosition(pos[0],pos[1])
+
+
+
+#Animate Microbes
+#-------------------------
+for microbe in range(4):
+  microbeList.append(makeMicrobe(randint(80,370),randint(80,370),gui.Color(randint(0,255),randint(0,255),randint(0,255)),shapes[randint(0,3)]))
+  
+def animate():
+  i = 0
+  while i <= 30:
+    sleep(0.15)
+    random(microbeList[0])
+    sleep(0.035)
+    upDown(microbeList[1])
+    sleep(0.025)
+    leftRight(microbeList[2])
+    random(microbeList[3])
+    i += 1
+
+animate()
