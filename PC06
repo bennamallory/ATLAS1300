@@ -1,0 +1,76 @@
+# File name     : PC06_20191016_Benna_Mallory.py
+# JES Version   : JES 5.02
+# Purpose       : To practice using classes and objects
+# Author        : Mallory Benna 
+# Partner       : N/A -- absent for recitation
+# Date written  : 10-09-2019
+# Date revised  : 10-13-2019
+# Description   : This is a program used to simulate a bubble clicking game
+#     Revisions   10-11-2019 -- move function creation
+#                 10-13-2019 -- move function altered to replicate example from 10/3, PROBLEMS: only one bubble appears to move (actually different bubble objects moving once and disappearing)
+#                 10-14-2019 -- fixed move fucntion, help Dr.Z
+
+import gui
+from random import randint
+from time import sleep
+
+global speed, shape, disp
+
+#Create class for bubble object
+#Reference from Class Examples 10/10/19
+class Bubble():
+  
+  size = 500 #size of width/height of display
+  radius = randint(15,35)
+  
+  minX = radius
+  minY = radius
+  maxX = size - minX
+  maxY = size - minY
+  speed = [randint(-20,20),randint(-20,20)]
+  shape = []
+  
+  def draw(self,window):
+    
+    x = randint(2*self.radius,(self.size - 2*self.radius))
+    y = randint(2*self.radius,(self.size - 2*self.radius))
+  
+    shape = gui.Oval(x,y,(x + 2*self.radius),(y + 2*self.radius),gui.Color(20,200,255),true)
+    
+    def delete(x,y):
+      window.remove(self.shape)
+    
+    
+    shape.onMouseClick(delete)
+    self.shape = shape    
+    window.add(self.shape)
+  
+  
+  def move(self):
+  
+    # Reference from class examples "Animation Example" 10/3/19
+    self.shape.setPosition(self.shape.getPosition()[0] + self.speed[0], self.shape.getPosition()[1] + self.speed[0])
+    
+    if (self.shape.getPosition()[1] > self.maxY) or (self.shape.getPosition()[1] < self.minY):
+      self.speed[0] *= -1
+
+    if (self.shape.getPosition()[0] > self.maxX) or (self.shape.getPosition()[0] < self.minX):
+      self.speed[1] *= -1
+      
+
+
+disp = gui.Display('Bubble Game',500,500)
+
+
+#DISPLAY AND MOVE BUBBLES
+
+bubbleList = []
+
+for i in range(numOfBub):
+  bubbleList.append(Bubble())
+
+
+for i in range(len(bubbleList)):
+  bubbleList[i].draw(disp)
+  sleep(0.5)
+  bubbleList[i].move()
