@@ -1,0 +1,145 @@
+# File name     : PC07_20191023_Benna_Mallory.py
+# JES Version   : JES 5.02
+# Purpose       : To practice using classes and objects
+# Author        : Mallory Benna 
+# Partner       : Catherine Jones
+# Date written  : 10-16-2019
+# Date revised  : 10-18-2019
+# Description   : This is a program used to simulate a bubble clicking game, animation functions from PC06_20191016_Benna_Mallory.py (Bubble class) 
+#     Revisions   10-18-2019 -- create score class and score label
+
+import gui
+from random import randint
+from time import sleep
+
+
+global speed, shape, disp, score, numOfBub
+
+
+disp = gui.Display('Bubble Game',500,500) 
+
+
+#Create class for bubble object
+class Bubble():
+  
+  size = 500 #size of width/height of display
+  radius = randint(15,35) #instance attribute?
+  
+  minX = radius
+  minY = radius
+  maxX = size - minX
+  maxY = size - minY
+  
+  speed = [randint(-20,20),randint(-20,20)] #instance attribute
+  shape = []
+  
+  def draw(self,window):
+    
+    x = randint(2*self.radius,(self.size - 2*self.radius)) #instance attribute?
+    y = randint(2*self.radius,(self.size - 2*self.radius)) #instance attribute?
+  
+    shape = gui.Oval(x,y,(x + 2*self.radius),(y + 2*self.radius),gui.Color(20,200,255),true)
+    
+    def delete(x,y):
+      global score, myScore
+      window.remove(self.shape)
+      
+      myScore.updateScore()
+          
+    shape.onMouseClick(delete)
+    self.shape = shape    
+    window.add(self.shape)
+  
+  
+  def move(self):
+  
+    # Reference from class examples "Animation Example" 10/3/19
+    self.shape.setPosition(self.shape.getPosition()[0] + self.speed[0], self.shape.getPosition()[1] + self.speed[0])
+    
+    if (self.shape.getPosition()[1] > self.maxY) or (self.shape.getPosition()[1] < self.minY):
+      self.speed[0] *= -1
+
+    if (self.shape.getPosition()[0] > self.maxX) or (self.shape.getPosition()[0] < self.minX):
+      self.speed[1] *= -1
+      
+      
+#Score Class  -- Isaac Sheets Help   
+class GameControl:
+  points = 0
+  winGame = false
+  
+  def updateScore(self):
+    global scoreLabel
+    
+    self.points += 1
+    
+    scoreLabel.setText("Score: " + str(self.points))
+    
+    self.checkWin()
+    
+  
+  def checkWin(self):
+    global numOfBub
+    
+    if self.points == numOfBub:
+      printNow("You Won")
+      self.winGame = true
+    else:
+      printNow("Not won yet")
+
+
+#Create score instance
+myScore = GameControl()
+
+
+
+#Make score label
+scoreLabel = gui.Label("Score: " + str(myScore.points)) 
+
+
+disp.add(scoreLabel)
+
+
+
+#DISPLAY AND MOVE BUBBLES
+numOfBub = randint(5,7)
+bubbleList = []
+
+def createBubbles():
+  #Add bubbles to list
+  for i in range(numOfBub):
+    bubbleList.append(Bubble())
+
+  #Draw bubbles
+  for bub in bubbleList:
+    bub.draw(disp)
+
+
+def moveBubbles():
+  #Move bubbles and check if game is over
+  for x in range(200):
+    sleep(0.75)
+
+    for bub in bubbleList:
+      bub.move()
+    
+    if myScore.winGame == true:
+      break 
+               
+def gameOver():
+  #If game is over -- display result
+  if myScore.winGame == true:
+    winLabel = gui.Label("You win")
+    disp.add(winLabel,225,250)
+  else:
+    loseLabel = gui.Label("You Lose")
+    disp.add(loseLabel,225,250)
+
+
+createBubbles()
+moveBubbles()
+gameOver()
+
+
+
+
