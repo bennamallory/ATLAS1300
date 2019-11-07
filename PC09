@@ -1,0 +1,92 @@
+# File name     : PC09_20191106_Benna_Mallory.py
+# JES Version   : JES 5.02
+# Purpose       : To practice sound tools
+# Author        : Mallory Benna 
+# Partner       : 
+# Date written  : 10-31-2019
+# Date revised  : 11-1-19
+# Description   : This is a program used to distort human speech
+#     Revisions   
+
+import gui
+
+#create gui for playing sounds
+win = gui.Display('Sound board', 400,300)
+file = pickAFile()
+originalSound = makeSound(file)
+
+
+def playOrig():
+  #callback function for normal sample play button
+  play(originalSound)
+
+#Clipping Method (105) and Volume Method (99) from Chapter 8 of textbook 
+def distort(source):
+  #make empty sound the length desired
+  clipSound = makeEmptySound(87122)
+  target = makeEmptySound(87122)
+  targetIndex = 0
+  index = 0
+
+  #Clip original sound and set clipSound to have desired samples
+  for sample in range(0,20446):
+    #set "sample" to the sample from the original clip
+    value = getSampleValueAt(source,sample)
+    #set new sample with sound from old sample at increasing index
+    setSampleValueAt(clipSound,targetIndex,value*-600)
+    targetIndex = targetIndex + 1
+  
+  #EMPTY SOUND 
+  for sample in range(20446,24892):
+    value = getSampleValueAt(target,sample)
+    setSampleValueAt(clipSound,targetIndex,value)
+    targetIndex = targetIndex + 1
+  
+  for sample in range(24892,36720):
+    #set "sample" to the sample from the original clip
+    value = getSampleValueAt(source,sample)
+    #set new sample with sound from old sample at increasing index
+    setSampleValueAt(clipSound,targetIndex,value*-600)
+    targetIndex = targetIndex + 1
+  
+  #EMPTY SOUND
+  for sample in range(36720,49784):
+    value = getSampleValueAt(target,sample)
+    setSampleValueAt(clipSound,targetIndex,value)
+    targetIndex = targetIndex + 1
+  
+  for sample in range(49784,62230):
+    #set "sample" to the sample from the original clip
+    value = getSampleValueAt(source,sample)
+    #set new sample with sound from old sample at increasing index
+    setSampleValueAt(clipSound,targetIndex,value*-600)
+    targetIndex = targetIndex + 1
+    
+  for sample in range(62230,74676):
+    #set "sample" to the sample from the original clip
+    value = getSampleValueAt(source,sample)
+    #set new sample with sound from old sample at increasing index
+    setSampleValueAt(clipSound,targetIndex,value*-600)
+    targetIndex = targetIndex + 1
+
+  for sample in range(74676,87122):
+    #set "sample" to the sample from the original clip
+    value = getSampleValueAt(source,sample)
+    #set new sample with sound from old sample at increasing index
+    setSampleValueAt(clipSound,targetIndex,value*-600)
+    targetIndex = targetIndex + 1
+
+  return clipSound
+
+
+def playDistort():
+  #callback function for distorted sound play button
+  distortSound = distort(originalSound)
+  play(distortSound)
+  #create distortSound to play
+  win.add(playDistBtn, 120, 100)
+  
+playDistBtn = gui.Button('Play Distorted Sound',playDistort)
+playOrigBtn = gui.Button('Play Original Sound',playOrig)
+win.add(playDistBtn,120,50)
+win.add(playOrigBtn,120,150)
