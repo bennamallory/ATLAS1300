@@ -1,0 +1,192 @@
+# File name     : PC08_20191030_Benna_Mallory.py
+# JES Version   : JES 5.02
+# Purpose       : To practice using classes and objects
+# Author        : Mallory Benna 
+# Partner       : Catherine Jones
+# Date written  : 10-25-2019
+# Date revised  : 10-25-2019
+# Description   : This is a program used to simulate a bubble clicking game. Game control taken from PC07
+#     Revisions   
+
+
+
+import gui, random, time
+
+
+#let's create our super class to make netural bubbles
+class Neutral():
+  #class attributes would go here, but we don't need any at this point
+  
+  #initializer method that get called anytime we make a bubble of any time (Neutral, Friend, Enemy), take two optional parameters of color and diam
+  def __init__(self,color=gui.Color.DARK_GRAY,diam=40):
+    #define some instance properties called diam and color
+    self.color = color
+    self.diam = diam
+    
+  #superclass draw method that will work with all our subclasses - no need to override
+  def draw(self, panel):
+    xpos=random.randint(100,500)
+    ypos=random.randint(100,500)
+    
+    ##Create the bubble
+    bubble = gui.Oval(xpos, ypos, xpos + self.diam, ypos + self.diam, self.color, true)
+    
+    #Add the action (click listener) - this will either use the one from the subclasses if we are drawing a Friend or an Enemy, or the default from the super class if we are drawing a Neutral bubble
+    bubble = self.addAction(bubble, panel)
+    
+    panel.add(bubble)
+    return bubble #return the object for easy management outside of class
+    
+  ##super addAction() method that simply adds a click listener to remove a Neutral bubble when it's clicked
+  def addAction(self, bubble, panel):
+    #this function adds a interactive user behavior to an object
+      
+    def remove(x,y):
+      global score, myScore
+      panel.remove(bubble) #remove bubble from panel
+      myScore.updateScore()
+                  
+    bubble.onMouseClick(remove) #call remove() function when we click the bubble
+    
+    return bubble
+    
+  #take in a bubble (could be any type - Neutral, Friend, or Enemy) and move it diagonally by a maximum of 10 each time
+  def move(self, bubble):
+  
+    #bubble dances diagonally
+    x,y = bubble.getPosition()
+    
+    #determine how much to move the bubble around
+    step = random.randint(-10,10)
+    
+    #check to make sure that the new bubble is always inside the bounds of our panel (with a little padding)
+    if 50 < x + step < 550 and 50 < y + step < 550:
+      #move bubble if it will still be inside the panel
+      bubble.setPosition(x + step, y + step)
+    else:
+      #don't move bubble if it would go outside the panel
+      bubble.setPosition(x,y)
+        
+    
+class Friend(Neutral):
+  #Friend specific class attribute that determines how quickly our game moves
+  dur = 0.05
+   
+  ###This will overrid the addAction() method from the super class Neutral since our Friend should also slow down time when it's clicked
+  def addAction(self, bubble, panel):
+    #this function adds an interactive user behavior to an object
+      
+    def slow(x,y):
+      panel.remove(bubble) #remove the bubble from the panel
+      self.dur = self.dur + 0.2 #add 0.2 to our "dur" class attribute   
+                  
+    bubble.onMouseClick(slow) #add a click listener to remove and slow the game
+    
+    return bubble
+    
+    
+#Sublass -- Enemy  
+class Enemy(Neutral):
+
+  def addAction(self,bubble,panel):
+
+    def removeEnemyAddNeutrals(x,y):
+      panel.remove(bubble)
+      
+      #Add new bubble
+      for i in range(2):
+        newGuy = controller.draw(panel) 
+        objList.append(newGuy)
+     
+    bubble.onMouseClick(removeEnemyAddNeutrals)
+    
+    return bubble     
+
+        
+#Score Class  -- Isaac Sheets Help   
+class GameControl():
+  points = 0
+  winGame = false
+  
+  def updateScore(self):
+    global scoreLabel
+    
+    self.points += 1
+    
+    scoreLabel.setText("Score: " + str(self.points))
+    
+    self.checkWin()
+    
+  
+  def checkWin(self):
+    global numOfBub
+    
+    if self.points == 9:
+      printNow("You Won")
+      self.winGame = true
+    else:
+      printNow("Not won yet")
+
+
+#Create score instance
+myScore = GameControl()
+
+
+#Make score label
+scoreLabel = gui.Label("Score: " + str(myScore.points)) 
+               
+#now let's draw our panel and control the behavior
+disp = gui.Display('',600,600)
+
+disp.add(scoreLabel)
+
+#create an instance of our Netural class and call it 'controller'
+controller = Neutral()
+
+#create an instance of our friend class, tell it what color and diameter it should be, then store the instance in a variable called goodGuy
+goodGuy = Friend(color=gui.Color.GREEN, diam = 30)
+badGuy = Enemy(color=gui.Color.RED, diam = 45)
+
+objList = [] #empty list to store our objects - we'll add to it anytime we draw a new bubble
+
+
+#draw 10 neutral bubbles
+for i in range(5):
+  #call the draw method of our controller instance of Neutral and store the bubble that is returned in a variable
+  newNeutralBubble = controller.draw(disp)
+  
+  #don't forget to put it in our list so we can move it later!
+  objList.append(newNeutralBubble)
+  
+
+#now let's draw 2 Friend bubbles using the instance we created (goodGuy)
+for i in range(2):
+  #call draw method of out Friend instance (goodGuy) and store return value in a variable
+  newFriendBubble = goodGuy.draw(disp)
+  #put our new friend bubble into our list so we can move it later
+  objList.append(newFriendBubble) 
+  
+
+for i in range(2):
+  #call draw method of out Friend instance (goodGuy) and store return value in a variable
+  newEnemyBubble = badGuy.draw(disp)
+  #put our new friend bubble into our list so we can move it later
+  objList.append(newEnemyBubble) 
+    
+
+#now let's animate by running an infinite while loop
+while true:
+  val = len(objList)
+  #iterate through the list of objects one by one - 'obj' represents the current object that we are accessing from our list
+  for obj in objList:
+    #call the move method of our Neutral instance (controller) and tell it which object to move - could be a Friend, Neutral, or Enemy bubble, doesn't matter since they all move the same
+    controller.move(obj)
+    print(myScore.points)
+    
+    
+  time.sleep(goodGuy.dur) #sleep based on the current dur attribute of our goodGuy instance of the Friend class
+
+  if myScore.points == 9:
+    break
+   
+showInformation("You Win")
