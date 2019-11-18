@@ -1,0 +1,93 @@
+# File name     : PC10_20191113_Benna_Mallory.py
+# JES Version   : JES 5.02
+# Purpose       : To practice interpeting and visualizing data
+# Author        : Mallory Benna 
+# Date written  : 11-07-2019
+# Date revised  : 11-08-2019 
+# Description   : This is a program used to create a visualization using given data
+#  
+
+folder = pickAFolder()
+setLibPath(folder)
+from chart import *
+
+
+import csv, ast, gui
+    
+#Function to import CSV data, Made my Dr. Z, from class scripts
+def readCSV():
+  #Opens and reads CSV files and returns a list for each column of data. 
+  #May return a list of indices with no header, depending on CSV layout
+  file = pickAFile() #select csv file (if not from internet)
+  f = open(file, 'r')
+  reader = csv.reader(f)
+
+  contents = []
+  for i,elem in enumerate(reader):
+    if i == 0: #use first row to figure out how many columns of data there are
+      for k in range(len(elem)):
+        contents.append([elem[k]])
+    else:
+      for k in range(len(elem)):
+        try:
+          contents[k].append(float(elem[k])) #add following elements to nested lists
+        except:
+          contents[k].append(elem[k]) #add following elements to nested lists
+  f.close()
+  return contents
+
+
+#Make data into dictionary   
+dataList = readCSV()
+
+dataDict = {}
+for i in range(1,len(dataList)):
+  dataDict[dataList[i][0]] = dataList[i][1:]
+
+
+#Make GUI
+disp_width = 600
+disp_height = 600
+disp = gui.Display('Scatter', disp_width, disp_height)
+
+
+#Reference from Example Scripts
+data = [dataDict['yrs.service'],dataDict['salary']]
+data2 = [dataDict['yrs.since.phd'],dataDict['salary']]
+
+  
+#Plot first round of data
+scatter = Scatter(disp,data,background=false,box=false) 
+scatter.draw()
+
+#Add Labels
+serviceLabel = gui.Label("Professors' Salaries Increase with Years of Service and Years Since Granted PhD")
+disp.add(serviceLabel,60,10)
+
+#Adding Key Labels
+serviceLabel = gui.Label("Years of Service") #blue
+disp.add(serviceLabel,470,50)
+
+blueCirc = gui.Circle(455,58,5,gui.Color.BLUE,true)
+disp.add(blueCirc)
+
+serviceLabel = gui.Label("Years Since PhD") #red
+disp.add(serviceLabel,470,70)
+
+redCirc = gui.Circle(455,78,5,gui.Color.RED,true)
+disp.add(redCirc)
+
+box = gui.Rectangle(445,49,575,90)
+disp.add(box)
+
+#Adding Graph Labels
+salaryLabel = gui.Label("Salary ($) ")
+disp.add(salaryLabel,15,300)
+
+yearsLabel = gui.Label("Years")
+disp.add(yearsLabel,250,560)
+
+#Plotting second round of data
+scatter2 = Scatter(disp,data2,color=gui.Color.RED,background=false,box=false)
+scatter2.draw()
+
