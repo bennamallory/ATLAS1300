@@ -17,7 +17,7 @@ from time import sleep
 global speed, shape, disp, score
 
 #Create class for bubble object
-#Reference from Class Examples 10/10/19
+#Reference from Class Example 10/10/19
 class Bubble():
   
   size = 500 #size of width/height of display
