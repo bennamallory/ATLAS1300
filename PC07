@@ -63,7 +63,7 @@ class Bubble():
       self.speed[1] *= -1
       
       
-#Score Class  -- Isaac Sheets Help   
+#Score Class  -- Isaac Sheets Reference  
 class GameControl:
   points = 0
   winGame = false
