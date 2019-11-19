@@ -135,5 +135,5 @@ while i < 500:
   
   i += 1
 
-#GET BETTER DROP PICTURE
+#DROP PICTURE
 dropPic(t4)
