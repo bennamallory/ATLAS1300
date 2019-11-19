@@ -1,0 +1,66 @@
+# File name     : PC01_20190906_Benna_Mallory.py
+# JES Version   : jes-4-3
+# Purpose       : To practice basic drawing skills
+# Author        : Mallory Benna 
+# Partner       : Cathrine Jones
+# Date written  : 9-06-2019
+# Description   : This program provides methods for turning an image of Jeff Bezos into art
+
+
+#Import image to manipulate (in this case, Jeff Bezos)
+myFile = pickAFile()
+pict = makePicture(myFile)
+canvas = makeEmptyPicture(getWidth(pict) + 100, getHeight(pict) + 100, makeColor(146,44,136))
+canvas2 = makeEmptyPicture(getWidth(canvas) + 100, getHeight(canvas) + 100,makeColor(180,44,136))
+
+#Method to run Program
+def makeArt():
+  addGlasses()
+  tintBlue()
+  addBorder()
+  addName()
+  colorDistance()
+  show(canvas2)
+
+#Method to add glasses
+def addGlasses():
+  #Left oval of glasses
+  addOvalFilled(pict,185,110,60,60,black)
+  addOval(pict,185,110,60,60,white)
+  #Right oval of glasses
+  addOvalFilled(pict,278,120,40,40,black)
+  addOval(pict,278,120,40,40,white)
+  #Add arc over nose
+  addArc(pict,225,130,75,75,60,60,black)
+  #Add earpiece
+  addLine(pict,191,134,81,137,black)
+
+#Method to add borders
+def addBorder():
+  #add closest border
+  newPict = copyInto(pict, canvas,50, 50)
+  #add outermost border
+  finalPict = copyInto(newPict,canvas2,50,50)
+
+#Method to print the value of the color distance from blue (0,0,255) for the pixel located at (100,100)
+def colorDistance():
+  pixel = getPixel(pict,100,100)
+  color_pix = getColor(pixel)
+  dist = distance(blue,color_pix)
+  printNow("Distance from blue for the pixel located at (100,100) is: ")
+  printNow(dist)
+
+#Method to tint the image blue
+def tintBlue():
+  for pixel in getPixels(pict):
+    value = getRed(pixel)
+    setBlue(pixel,180)   
+
+def addName():
+  import java.awt.Font as Font
+  str = "Jeff B"
+  myFont = makeStyle("Comic Sans", Font.BOLD,93)
+  addTextWithStyle(canvas2,60,530,str,myFont,white)
+
+#Run Program
+makeArt()
