@@ -80,14 +80,14 @@ disp.add(redCirc)
 box = gui.Rectangle(445,49,575,90)
 disp.add(box)
 
-#Adding Graph Labels
+#Add Graph Labels
 salaryLabel = gui.Label("Salary ($) ")
 disp.add(salaryLabel,15,300)
 
 yearsLabel = gui.Label("Years")
 disp.add(yearsLabel,250,560)
 
-#Plotting second round of data
+#Plot second round of data
 scatter2 = Scatter(disp,data2,color=gui.Color.RED,background=false,box=false)
 scatter2.draw()
 
