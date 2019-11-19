@@ -1,0 +1,76 @@
+# Original Author: Cathrine Jones, 9-19-2019, JES 4-3
+# Editor         : Mallory Benna, 9-27-2019, JES  4-3
+# File Version   : PC03.1.1_20190919_JONES_CATHRINE.py
+# Edits          : New edits include...
+#                  Made the for loops for each shape into generalized functions with variables replacing hard code
+#                  Added if else statements to correspond color with desired shape xCord and yCord from original code within generalized functions
+#                  Shape functions resulted in output with more randomness - either more shapes or less shapes
+#                  Added makeArt() function to group commands that generate art
+#                  Removed creation of turtle that was not used
+#                  Added math module to create dimmensions of square background as some number to the second power
+
+
+#Import random elements and math modules
+from random import randint
+import math
+
+#Create Empty Background
+x = 25
+picHeight = math.pow(x,2)
+picWidth = math.pow(x,2)
+pic = makeEmptyPicture(int(picHeight),int(picWidth),black)
+
+ 
+#Methods for making shapes:
+
+#Method to create a rectangle of specified color
+def Rect(color):
+  if color == cyan:
+    for i in range(1,300):
+      xCord1 = randint(0,600)
+      yCord1 = randint(0,600)
+      width1 = randint(10,50)
+      height1 = randint(10,50)
+      addRect(pic,xCord1,yCord1,width1,height1,cyan)
+  else:
+    for i in range(1,300):
+      xCord1 = randint(0,600)
+      yCord1 = randint(0,600)
+      width1 = randint(10,50)
+      height1 = randint(10,50)
+      addRect(pic,xCord1,yCord1,width1,height1,color)
+
+#Method to create ovals of specified color and width/height
+def Ovals(color, lowVal, highVal):
+  if color == white:
+    for i in range(1,200):
+      xCord = randint(0,600)
+      yCord = randint(0,600)
+      width = randint(lowVal,highVal)
+      height = randint(lowVal,highVal)
+      addOval(pic,xCord,yCord,width,height,white)
+  elif color == blue:
+    for i in range(1,250):
+      xCord2 = randint(0,600)
+      yCord2 = randint(0,600)
+      width2 = randint(lowVal,highVal)
+      height2 = randint(lowVal,highVal)
+      addOval(pic,xCord2,yCord2,width2,height2,blue)
+  else:
+    for i in range(1,250):
+      xCord2 = randint(0,600)
+      yCord2 = randint(0,600)
+      width2 = randint(lowVal,highVal)
+      height2 = randint(lowVal,highVal)
+      addOval(pic,xCord2,yCord2,width2,height2,color)
+
+#Function to make Art with three shapes
+def makeArt():  
+  Rect(cyan)
+  Ovals(white, 10,70)
+  Ovals(blue,5,120)
+ 
+ 
+#Call makeArt() to run program and show result
+makeArt()
+show(pic)
