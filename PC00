@@ -1,0 +1,28 @@
+# File name     : PC00_20190830_Benna_Mallory.py
+# Purpose       : To print Hello World statements
+# Author        : Mallory Benna 
+# Partner       : Cathrine Jones
+# Date written  : 8-30-2019
+# Description   : This program provides methods for printing various messages
+
+#Function to print string "Hello World"
+def helloWorld():
+  printNow("Hello World")
+
+#Function to print Hello + user's input, the variable name
+def helloName():
+  #Store the user input in variable 'name'
+  name = requestString("What is your name?")
+  #Print 'Hello' plus the user's input aka their name
+  printNow("Hello " + name)
+
+#Function to create pop up box with 'hello world' in it
+def makePopUpBox():
+  box = makeEmptyPicture(500,500)
+  addText(box,10,15,'Hello World', blue)
+  printNow(show(box))
+
+#Run functions
+helloWorld()
+helloName()
+makePopUpBox()
