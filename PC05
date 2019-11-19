@@ -16,7 +16,7 @@ from time import sleep
 from random import randint, choice
 
 #Variables
-#----------------
+#---------------------------
 # Microbe function variables
 circle = "circle"
 oval = "oval"
