@@ -83,12 +83,12 @@ def makeSquare(turtle):
 def makeStripes(turtle):
   turtle.up()
   step = 5
-  turtle.right()
+  turtle.right(90)
   
   for i in range(1,7):
     turtle.up()
-    turtle.goto(0,height+step)
-    turtle.down(turtle)
+    turtle.goto(-500,500+step)
+    turtle.down()
     turtle.forward(640)
     turtle.up()
     step += 10
