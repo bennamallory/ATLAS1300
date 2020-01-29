@@ -1,0 +1,179 @@
+# File name     : PC03_20190923_Benna_Mallory.py
+# JES Version   : jes-4-3
+# Purpose       : To practice using flow control elements such as while, if, for
+# Author        : Mallory Benna 
+# Date written  : 9-16-2019
+# Date revised  : 9-20-2019
+# Description   : This is a program used to create a piece of generative art that is aesthetically and conceptually interesting
+#     Revisions   9-19-19 - Comments updated to include date revised and revision notes
+#                 9-20-19 - Added randomness to the direction of the squares in the Recaman pattern
+#                           Hid physical turtle objects from screen
+#                           Added Map() and randNum() to generate values for Star()
+
+from random import randint
+from turtle import *
+
+#Make world and initialize turtles
+screen = Screen()
+
+width = 640
+height = 420
+
+
+t1 = Turtle()
+t1.pencolor("#FFD105")
+#t1.setBodyColor(makeColor(255,209,5))
+t1.hideturtle()
+t1.width(1)
+t1.speed("fastest")
+
+t2 = Turtle()
+t2.pencolor("#FF7A05")
+#t2.setBodyColor(makeColor(255,122,5))
+t2.hideturtle()
+t2.width(1)
+t2.speed("fastest")
+
+
+t3 = Turtle()
+t3.pencolor("red")
+#t3.setBodyColor(red)
+t3.hideturtle()
+t3.width(1)
+t3.speed("fastest")
+
+t4 = Turtle()
+t4.pencolor("#FF9305")
+#t4.setBodyColor(makeColor(255,147,5))
+t4.hideturtle()
+t4.width(1)
+t4.speed("fastest")
+
+t5 = Turtle()
+t5.pencolor("black")
+#t5.setBodyColor(black)
+t5.hideturtle()
+t5.width(5)
+t5.speed("fastest")
+
+
+
+#Method to generate a random X value in specified range
+def randX(lower,upper):
+  x = randint(lower,upper)
+  return x
+
+#Method to generate a random Y value in specified range
+def randY(lower,upper):
+  y = randint(lower,upper)
+  return y
+
+
+#Method to make a single square
+def makeSquare(turtle):
+  turtle.down()
+  for x in range(0,4):
+    turtle.forward(20)
+    turtle.right(90)
+  turtle.up()
+
+  
+#Method to make stripes at bottom of image
+def makeStripes(turtle):
+  turtle.up()
+  step = 5
+  turtle.right()
+  
+  for i in range(1,7):
+    turtle.up()
+    turtle.goto(0,height+step)
+    turtle.down(turtle)
+    turtle.forward(640)
+    turtle.up()
+    step += 10
+    
+  turtle.up()
+  
+     
+#Method to return a random number from zero to argument
+def randNum(range):
+  num = randint(0,range)
+  return num
+
+#Map() -function RandNum generates a list of random values
+#      -each index returned by Map() is a random number from given range in value list
+values = [0,1,2,3,4,5,6,7,8,9]
+a = map(randNum,values)
+
+
+#Method to create random star object
+def Star(turtle):
+  step = 2
+  for j in a:
+    turtle.up()
+    turtle.goto(-550,170)
+    turtle.down()
+    turtle.right(randint(-90,-10))
+    turtle.forward(640)
+    turtle.up()
+    step += 2
+
+
+# The Recaman Sequence
+#   Algorithm reference from https://simpleprogrammer.com/python-generative-art-math/
+def Recaman(turtle):
+  x = 0
+  while x < 10:
+    #Move Turtle to random start
+    turtle.up()
+    turtle.goto(randX(-500,500),randY(-500,500))
+    turtle.down()
+
+    #Start at number 0
+    currNum = 0
+
+    #list for all values we have been to
+    pastNums = []
+
+    #Increase step by 1 each round
+    for step in range(1,100):
+      #Checking if we can move backwards
+      checkBack = currNum - step
+  
+      #The backwards value positive and not a number we've been at before
+      if checkBack > 0 and checkBack not in pastNums:
+        #Move turtle backward that step size and set the current value to this new backward value, logging this current spot
+        turtle.up()
+        turtle.goto(randX(-500,500),randY(-500,500))
+        turtle.down()
+        
+        #Randomize which way each square of the pattern faces
+        turtle.setheading(randX(0,width))
+
+        makeSquare(turtle)
+        turtle.backward(100)
+        currNum = checkBack
+        pastNums.append(currNum)
+    
+      #Otherwise, move turtle forward the step size and set this to be the current value, logging this current spot
+      else:
+        t1.up()
+        t1.goto(randX(-500,500),randY(-500,500))
+        t1.down()
+        
+        #Randomize which way each square of the pattern faces
+        t1.setheading(randint(0,width))
+        
+        makeSquare(t1)
+        t1.forward(100)
+        currNum += step
+        pastNums.append(currNum)
+  
+    x += 1
+
+Recaman(t1)
+Recaman(t2)
+Recaman(t3)
+Recaman(t4)
+makeStripes(t5)
+Star(t5)
