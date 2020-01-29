@@ -1,0 +1,82 @@
+#=================
+# Programming Challenge: PC01 - Graffiti
+# Name: Mallory Benna
+# Date: 1-21-20
+#
+# Description: This is a program that creates art using python turtles
+
+from turtle import *
+
+#Creating screen
+screen = Screen()
+#screen.bgpic('brick-wall.gif')
+screen.bgcolor('lightblue')
+
+#Creating turtle
+t = Turtle()
+t.shape('turtle')
+t.pensize(10)
+
+
+#Draw Black Circle
+t.penup()
+t.forward(100)
+t.pendown()
+
+t.begin_fill()
+t.color('#008080','#bada55')
+t.circle(100)
+t.end_fill()
+
+#Draw Purple Circle
+t.penup()
+t.setpos(-150,150)
+t.forward(100)
+t.pendown()
+
+t.begin_fill()
+t.color('violet','purple')
+t.circle(80)
+t.end_fill()
+
+
+#Draw Orange Circle
+t.penup()
+t.setpos(-300,-100)
+t.forward(100)
+t.pendown()
+
+t.begin_fill()
+t.color('#ff4500','orange')
+t.circle(80)
+t.end_fill()
+
+#Draw Pink Circle
+t.penup()
+t.setpos(100,-200)
+t.forward(100)
+t.pendown()
+
+t.begin_fill()
+t.color('#e4007c','pink')
+t.circle(50)
+t.end_fill()
+
+
+#Draw Lines
+t.color('#06003d','#06003d')
+        
+t.penup()
+t.setpos(-375,-250)
+t.pendown()
+t.forward(500)
+
+t.penup()
+t.setpos(-375,-275)
+t.pendown()
+t.forward(550)
+
+t.penup()
+t.setpos(-375,-300)
+t.pendown()
+t.forward(600)
