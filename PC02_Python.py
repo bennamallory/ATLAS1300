@@ -1,8 +1,8 @@
 # File name     : PC02_20190916_Benna_Mallory.py
-# JES Version   : jes-4-3
+# Version       : Python 3
 # Purpose       : To practice basic drawing skills with turtles
 # Author        : Mallory Benna 
-# Date written  : 9-13-2019
+# Date written  : 1-29-2020
 # Description   : This program provides methods for creating an animation using turtles
 
 #Import time and random modules
