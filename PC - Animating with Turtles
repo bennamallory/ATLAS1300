@@ -1,0 +1,75 @@
+# Challenge: PC02 - Turtle Animation
+# Name: Mallory Benna
+# Date: 1-27-20
+# Description: Creates a randomly generated piece of art using Fibonacci Sequence
+
+from turtle import *
+from time import sleep
+from random import randint
+
+#Create screen for drawing and initialize color
+screen = Screen()
+screen.bgcolor("#6a605c")
+
+#Create turtles and initialize color and positions
+t1 = Turtle()
+t1.shape("square")
+t1.color("#cdf7f6","#cdf7f6")
+t1.pensize(8)
+t1.up()
+t1.goto(randint(-90,90),randint(-90,90))
+
+t2 = Turtle()
+t2.shape("circle")
+t2.color("#8fb8d3","#8fb8d3")
+t2.pensize(10)
+t2.up()
+t2.goto(randint(-90,90),randint(-90,90))
+
+t3 = Turtle()
+t3.color("#9a94bc","#9a94bc")
+t3.pensize(15)
+t3.up()
+t3.goto(randint(-90,90),randint(-90,90))
+
+#Reference from https://www.geeksforgeeks.org/python-program-for-program-for-fibonacci-numbers-2/
+def Fibonacci(n):
+    if n < 0:
+        print("incorrect input")
+    elif n == 1:
+        return 0
+    elif n == 2:
+        return 1
+    else:
+        return Fibonacci(n-1) + Fibonacci(n-2)
+    
+
+#Create array of randomly generated Fibonacci numbers
+fib_nums = [Fibonacci(randint(10,12)), Fibonacci(randint(10,12)), Fibonacci(randint(10,12)) ]
+
+#Loop over three turtles drawing polygons three times
+for i in range(3):
+    
+    for i in range(12):
+        t1.left(30)
+        t1.down()
+        t1.forward(fib_nums[0])
+    
+        t2.left(30)
+        t2.down()
+        t2.forward(fib_nums[1])
+    
+        t3.left(30)
+        t3.down()
+        t3.forward(fib_nums[2])
+    
+    
+    sleep(1)
+    t1.up()
+    t1.goto(randint(-150,150),randint(-150,150))
+    
+    t2.up()
+    t2.goto(randint(-150,150),randint(-150,150))
+    
+    t3.up()
+    t3.goto(randint(-150,90),randint(-150,150))
