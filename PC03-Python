@@ -3,12 +3,13 @@
 # Purpose       : To practice using flow control elements such as while, if, for
 # Author        : Mallory Benna 
 # Date written  : 9-16-2019
-# Date revised  : 9-20-2019
+# Date revised  : 1-29-2020
 # Description   : This is a program used to create a piece of generative art that is aesthetically and conceptually interesting
 #     Revisions   9-19-19 - Comments updated to include date revised and revision notes
 #                 9-20-19 - Added randomness to the direction of the squares in the Recaman pattern
 #                           Hid physical turtle objects from screen
 #                           Added Map() and randNum() to generate values for Star()
+#                 1-29-20 -- Converted to Python
 
 from random import randint
 from turtle import *
